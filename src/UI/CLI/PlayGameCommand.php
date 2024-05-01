@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UI\CLI;
 
 use App\Domain\UseCase\PlayGameUseCase;
+use App\Domain\ValueObject\Letter;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,6 +27,7 @@ class PlayGameCommand extends Command
     {
         $game = $this->playGameUseCase->startGame();
         $output->writeln(sprintf("Welcome to Hangman! The word has %s letters.\n", strlen($game->getWord()->getValue())));
+
         while (!$game->isGameOver()) {
             $output->writeln($game->getWord()->getDisplay());
             $guess = $this->askForGuess($input, $output);
@@ -37,16 +39,11 @@ class PlayGameCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function askForGuess(InputInterface $input, OutputInterface $output): string
+    private function askForGuess(InputInterface $input, OutputInterface $output): Letter
     {
         $helper = $this->getHelper('question');
         $question = new Question('Guess a letter: ');
-        $question->setValidator(function ($answer) {
-            if (strlen($answer) !== 1 || !ctype_alpha($answer)) {
-                throw new \InvalidArgumentException('Please enter a single letter.');
-            }
-            return strtoupper($answer);
-        });
-        return $helper->ask($input, $output, $question);
+        $answer = $helper->ask($input, $output, $question);
+        return new Letter(strtolower($answer));;
     }
 }

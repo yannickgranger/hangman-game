@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Hexagon\Unit;
 
-use App\Domain\Model\HangmanGame;
-use App\Domain\Model\Word;
+use App\Domain\Entity\HangmanGame;
+use App\Domain\Entity\Word;
 use PHPUnit\Framework\TestCase;
 
 class HangmanTest extends TestCase
