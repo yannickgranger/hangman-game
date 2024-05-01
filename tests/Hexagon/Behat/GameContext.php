@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Hexagon\Behat;
 
-use App\Domain\Model\HangmanGame;
+use App\Domain\Entity\HangmanGame;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Symfony\Component\HttpKernel\KernelInterface;
