@@ -76,4 +76,4 @@ Initially, the tests will fail as the corresponding code doesn't exist.
 - we could add persistency with whatever system, infra is implementation detail
 - don't focus on framework / tools, but domain
 - easy to maintain, apply changes on business requirements
-- no "anemic CRUD"
+- no "anemic CRUD", code focuses on rules of the game
