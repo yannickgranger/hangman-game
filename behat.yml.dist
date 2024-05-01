@@ -2,7 +2,7 @@ default:
     suites:
         default:
             contexts:
-                - App\Tests\Behat\GameContext
+                - App\Tests\Hexagon\Behat\GameContext
 
     extensions:
         FriendsOfBehat\SymfonyExtension:
