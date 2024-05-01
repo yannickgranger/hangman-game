@@ -9,5 +9,4 @@ namespace App\Domain\Exception;
  */
 class InvalidGuessException
 {
-
 }
