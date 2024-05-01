@@ -6,7 +6,7 @@ namespace App\Infra\Persistence\Repository;
 
 use App\Domain\Repository\WordRepositoryInterface;
 
-class RedisWordRepository implements WordRepositoryInterface
+class PostgresWordRepository implements WordRepositoryInterface
 {
 
 }

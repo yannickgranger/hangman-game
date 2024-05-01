@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Behat;
+namespace App\Tests\Hexagon\Behat;
 
 use App\Domain\Model\HangmanGame;
 use Behat\Behat\Context\Context;
