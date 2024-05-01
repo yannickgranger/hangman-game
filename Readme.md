@@ -68,6 +68,9 @@ Initially, the tests will fail as the corresponding code doesn't exist.
 - "feature/api" shows a quick API built to interact
 - "feature/ui" bootstraps a quick UI front with Vuejs
 
+## Documentation:
+see ./doc/ folder for business documentation and workflow used, plus other technical consideration
+
 ## Conclusion:
 
 - domain respects business rules, hexagon is tested (build by tests)

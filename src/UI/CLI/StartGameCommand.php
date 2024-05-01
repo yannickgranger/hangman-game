@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\UI\CLI;
 
-class StartGameCommand
+use Symfony\Component\Console\Command\Command;
+
+class StartGameCommand extends Command
 {
 
 }
