@@ -7,13 +7,11 @@ namespace App\Domain\Model;
 class HangmanGame
 {
     private Word $word;
-    private int $maxAttempts;
     private int $remainingAttempts;
 
     public function __construct(string $word, int $maxAttempts)
     {
         $this->word = new Word($word);
-        $this->maxAttempts = $maxAttempts;
         $this->remainingAttempts = $maxAttempts;
     }
 
@@ -37,7 +35,29 @@ class HangmanGame
         if (!$isCorrect) {
             $this->remainingAttempts--;
         }
+
         return $isCorrect;
+    }
+
+
+    public function getFeedback(string $letter, bool $isCorrect): string
+    {
+        if ($isCorrect === true && $this->word->isRevealedLetter($letter)) {
+            return sprintf("You guessed the letter %s.", strtolower($letter));
+        } elseif ($isCorrect) {
+            return sprintf("Good guess! The letter  %s is in the word.", strtolower($letter));
+        } else {
+            return "Incorrect guess. You have " . $this->getRemainingAttempts() . " guesses left.";
+        }
+    }
+
+    public function getResultMessage(): string
+    {
+        if ($this->remainingAttempts === 0) {
+            return "You ran out of guesses. The word was: " . $this->word->getValue();
+        } else {
+            return sprintf("Congratulations! You guessed the word: %s", $this->word->getValue());
+        }
     }
 
     public function isGameOver(): bool
