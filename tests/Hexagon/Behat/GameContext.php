@@ -8,6 +8,7 @@ use App\Domain\Model\HangmanGame;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Symfony\Component\HttpKernel\KernelInterface;
+
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertTrue;
 

@@ -8,5 +8,8 @@ use App\Domain\Repository\WordRepositoryInterface;
 
 class PostgresWordRepository implements WordRepositoryInterface
 {
-
+    public function getRandomWord(): string
+    {
+        // TODO: Implement getRandomWord() method.
+    }
 }
