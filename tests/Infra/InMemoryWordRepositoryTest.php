@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Infra;
 
 use App\Domain\Repository\WordRepositoryInterface;
-use App\Infra\Persistence\Repository\InMemoryWordRepository;
+use App\Infra\Persistence\Repository\WordInMemoryRepository;
 use PHPUnit\Framework\TestCase;
 
 class InMemoryWordRepositoryTest extends TestCase
@@ -14,7 +14,7 @@ class InMemoryWordRepositoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->wordRepository = new InMemoryWordRepository();
+        $this->wordRepository = new WordInMemoryRepository();
     }
 
     public function testItGetRandomWords()

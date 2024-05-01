@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route(path: "game", name: "start_game", methods: ["POST"])]
-class CreateGameAction
+final class CreateGameAction
 {
     public function __invoke(Request $request): JsonResponse
     {
