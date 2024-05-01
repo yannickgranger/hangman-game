@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\UI\CLI;
 
+use App\Domain\Model\Letter;
 use App\Domain\UseCase\PlayGameUseCase;
 use App\Domain\ValueObject\Letter;
 use Symfony\Component\Console\Attribute\AsCommand;
