@@ -67,3 +67,13 @@ Initially, the tests will fail as the corresponding code doesn't exist.
 - "feature/cli" uses the Symfony Console component to interact and play
 - "feature/api" shows a quick API built to interact
 - "feature/ui" bootstraps a quick UI front with Vuejs
+
+## Conclusion:
+
+- domain respects business rules, hexagon is tested (build by tests)
+- we don't really care about the infrastructure, there's simply non at start
+- by implementing ports / adapters we can have a simple CLI app, an API with a js front or mobile
+- we could add persistency with whatever system, infra is implementation detail
+- don't focus on framework / tools, but domain
+- easy to maintain, apply changes on business requirements
+- no "anemic CRUD"

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Unit;
 
+use App\Domain\HangmanGame;
+use App\Domain\Word;
 use PHPUnit\Framework\TestCase;
 
 class HangmanTest extends TestCase
@@ -14,8 +16,6 @@ class HangmanTest extends TestCase
         $this->assertEquals('apple', $word->getValue());
         $this->assertEquals([], $word->getRevealedLetters());
     }
-
-    // Write tests based on BDD scenarios
 
     public function testPlayerGuessesCorrectLetter()
     {
