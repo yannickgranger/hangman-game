@@ -4,15 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Behat;
 
-use App\Domain\HangmanGame;
+use App\Domain\Model\HangmanGame;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
-use Behat\Gherkin\Node\PyStringNode;
 use Behat\Gherkin\Node\TableNode;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
-
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertTrue;
 
