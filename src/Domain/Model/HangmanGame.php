@@ -25,7 +25,7 @@ class HangmanGame
         return $this->remainingAttempts;
     }
 
-    public function playTurn(string $letter): bool
+    public function playTurn(Letter $letter): bool
     {
         if ($this->isGameOver()) {
             return false;
@@ -40,12 +40,12 @@ class HangmanGame
     }
 
 
-    public function getFeedback(string $letter, bool $isCorrect): string
+    public function getFeedback(Letter $letter, bool $isCorrect): string
     {
         if ($isCorrect === true && $this->word->isRevealedLetter($letter)) {
-            return sprintf("You guessed the letter %s.", strtolower($letter));
+            return sprintf("You guessed the letter %s.", $letter->getValue());
         } elseif ($isCorrect) {
-            return sprintf("Good guess! The letter  %s is in the word.", strtolower($letter));
+            return sprintf("Good guess! The letter  %s is in the word.", $letter->getValue());
         } else {
             return "Incorrect guess. You have " . $this->getRemainingAttempts() . " guesses left.";
         }

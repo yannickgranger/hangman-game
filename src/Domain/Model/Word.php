@@ -25,19 +25,19 @@ class Word
         return $this->revealedLetters;
     }
 
-    public function isRevealedLetter(string $letter): bool
+    public function isRevealedLetter(Letter $letter): bool
     {
-        return in_array(strtolower($letter), $this->revealedLetters);
+        return in_array($letter->getValue(), $this->revealedLetters);
     }
 
-    public function guess(string $letter): bool
+    public function guess(Letter $letter): bool
     {
-        if (in_array(strtolower($letter), $this->revealedLetters)) {
+        if (in_array($letter->getValue(), $this->revealedLetters)) {
             return false;
         }
 
-        $this->revealedLetters[] = strtolower($letter);
-        return str_contains($this->value, strtolower($letter));
+        $this->revealedLetters[] = $letter->getValue();
+        return str_contains($this->value, $letter->getValue());
     }
 
     public function isRevealed(): bool

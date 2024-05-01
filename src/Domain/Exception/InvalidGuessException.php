@@ -7,6 +7,6 @@ namespace App\Domain\Exception;
 /**
  * @throws. Used when an invalid guess is provided
  */
-class InvalidGuessException
+class InvalidGuessException extends \LogicException
 {
 }

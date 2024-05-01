@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\UseCase;
 
+use App\Domain\Model\Letter;
 use App\Domain\Repository\WordRepositoryInterface;
 use App\Domain\Model\HangmanGame as Game;
 
@@ -24,7 +25,7 @@ class PlayGameUseCase
         return new Game($word, $this->maxAttempts);
     }
 
-    public function makeGuess(Game $game, string $letter): bool
+    public function makeGuess(Game $game, Letter $letter): bool
     {
         return $game->playTurn($letter);
     }
