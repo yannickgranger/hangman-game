@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit;
+namespace App\Tests\Hexagon\Unit;
 
 use App\Domain\Model\HangmanGame;
 use App\Domain\Model\Word;
