@@ -1,0 +1,52 @@
+services:
+
+  app_game_front:
+    container_name: app_game_front
+    build:
+      context: .
+      target: app_nginx
+      args:
+        - APP_DIR=.
+        - NGINX_CONF_DIR=./.docker/nginx
+        - INSTALL_DIR=app
+        - NGINX_VERSION=1.20
+        - TZ=Europe/Paris
+    ports:
+      - "80:80"
+    volumes:
+      - php_socket:/var/run/php
+
+  app_game:
+    container_name: app_game
+    restart: unless-stopped
+    build:
+      context: .
+      target: app_php
+      args:
+        - APP_ENV=dev
+        - APP_DIR=.
+        - PHP_CONF_DIR=./.docker/php
+        - ENTRYPOINT_FILE=docker-entrypoint.sh
+        - GID=1000
+        - UID=1000
+        - INSTALL_DIR=app
+        - PHP_VERSION=8.3
+        - TZ=Europe/Paris
+    volumes:
+      - php_socket:/var/run/php
+    networks:
+      - game
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379"
+    networks:
+      - game
+
+
+volumes:
+  php_socket:
+
+networks:
+  game:
