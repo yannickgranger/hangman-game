@@ -1,0 +1,10 @@
+services:
+
+  app_game:
+    restart: unless-stopped
+    volumes:
+      - ./:/srv/app:rw,cached
+      - ./.composer:/composer:rw
+      - ./.docker/php/conf.d/symfony.dev.ini:/usr/local/etc/php/conf.d/symfony.ini
+    environment:
+      APP_ENV: dev

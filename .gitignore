@@ -1,3 +1,4 @@
+.composer
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -7,6 +8,11 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+###> friends-of-behat/symfony-extension ###
+/behat.yml
+###< friends-of-behat/symfony-extension ###
+
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
 /phpunit.xml
