@@ -10,11 +10,13 @@ class HangmanGame
 {
     private Word $word;
     private int $remainingAttempts;
+    private ?int $difficulty;
 
-    public function __construct(string $word, int $maxAttempts)
+    public function __construct(string $word, int $maxAttempts, ?int $difficulty)
     {
         $this->word = new Word($word);
         $this->remainingAttempts = $maxAttempts;
+        $this->difficulty = $difficulty;
     }
 
     public function getWord(): Word
@@ -65,5 +67,10 @@ class HangmanGame
     public function isGameOver(): bool
     {
         return $this->remainingAttempts === 0 || $this->word->isRevealed();
+    }
+
+    public function getDifficulty(): ?int
+    {
+        return $this->difficulty;
     }
 }

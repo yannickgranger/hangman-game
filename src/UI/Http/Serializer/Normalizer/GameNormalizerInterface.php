@@ -2,7 +2,8 @@
 
 namespace App\UI\Http\Serializer\Normalizer;
 
-interface GameNormalizerInterface
-{
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
+interface GameNormalizerInterface extends NormalizerInterface
+{
 }

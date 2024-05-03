@@ -6,5 +6,4 @@ namespace App\UI\Http;
 
 class GuessLetterResponder
 {
-
 }
