@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Hexagon\Unit;
+namespace App\Tests\Hexagon\Functional;
 
 use App\Domain\Entity\HangmanGame;
 use App\Domain\Entity\Word;

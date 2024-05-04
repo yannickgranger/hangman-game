@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Hexagon\Behat;
+namespace App\Tests\Hexagon\Bdd;
 
 use App\Domain\Entity\HangmanGame;
 use App\Domain\ValueObject\Letter;
