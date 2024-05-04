@@ -7,6 +7,7 @@ namespace App\Tests\Infra;
 use App\Domain\Repository\WordRepositoryInterface;
 use App\Infra\Persistence\Repository\InMemoryWordRepository;
 use PHPUnit\Framework\TestCase;
+use Random\RandomException;
 
 class InMemoryWordRepositoryTest extends TestCase
 {
@@ -17,7 +18,10 @@ class InMemoryWordRepositoryTest extends TestCase
         $this->wordRepository = new InMemoryWordRepository();
     }
 
-    public function testItGetRandomWords()
+    /**
+     * @throws RandomException
+     */
+    public function testItGetRandomWords(): void
     {
         self::assertTrue(
             in_array(
