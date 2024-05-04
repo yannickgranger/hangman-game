@@ -17,9 +17,7 @@ Navigate to the project directory and run:
 ``$ docker-compose build``
 
 
-
 ## Run application:
-
 
 ``$ docker-compose up -d`` 
 
