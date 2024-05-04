@@ -18,13 +18,16 @@ Navigate to the project directory and run:
 
 
 
-3. Run application:
+## Run application:
 
 
 ``$ docker-compose up -d`` 
 
 This starts the Nginx container for web serving and the PHP-fpm container for application logic. They communicate securely using a shared Unix socket within a custom network.
 
+``$ make app`` to enter the game container CLI
+
+``$ make play`` to launch CLI game
 
 ## Clean Architecture with PHP
 

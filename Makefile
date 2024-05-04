@@ -6,6 +6,12 @@ BEHAT_BIN = vendor/bin/behat
 PHPSTAN = vendor/bin/phpstan
 DOCKER_COMPOSE = docker compose -f docker-compose.yml -f docker-compose.dev.yml
 
+
+# play
+play:
+	- ${DOCKER_COMPOSE} exec ${APP} sh -c "bin/console app:hangman:play"
+
+# dev
 tests: bdd tdd clean
 
 bdd:
