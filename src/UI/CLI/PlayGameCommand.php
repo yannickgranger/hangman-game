@@ -44,6 +44,6 @@ class PlayGameCommand extends Command
         $helper = $this->getHelper('question');
         $question = new Question('Guess a letter: ');
         $answer = $helper->ask($input, $output, $question);
-        return new Letter(strtolower($answer));;
+        return new Letter(strtolower($answer));
     }
 }

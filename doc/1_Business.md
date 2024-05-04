@@ -35,6 +35,10 @@ This document details the rules for a minimalistic but correct UX.
     * The word list should consist of appropriate words (avoid offensive or overly obscure words).
     * The difficulty level can be adjusted by controlling the word length or using different word lists (e.g., easy, medium, hard)
 
+6. **Hint:**
+   *  A player can request a hint, which mean a letter will be revealed, randomly choosed between unrevealed letters. The number of occurences of this letter are deducted from the remaining attempts. 
+   A hint is requestable only if there's remaining unrevealed letters.
+
 ### Additional Considerations
 
 * **Visual Representation:** The application
