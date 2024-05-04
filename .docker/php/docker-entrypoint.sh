@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 UID=1000
-mkdir -p /srv/app/var/data/download/backup
+env COMPOSER_HOME=/composer
 setfacl -R -m u:www-data:rwX -m u:"${UID}":rwX /srv/app/var/cache
 setfacl -dR -m u:www-data:rwX -m u:"${UID}":rwX /srv/app/var/cache
 setfacl -R -m u:www-data:rwX -m u:"${UID}":rwX /srv/app/var/log
