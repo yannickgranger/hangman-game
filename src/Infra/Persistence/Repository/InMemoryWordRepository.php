@@ -11,6 +11,9 @@ use Random\RandomException;
 
 class InMemoryWordRepository implements WordRepositoryInterface
 {
+    /**
+     * @var Collection<int, string>|ArrayCollection<int, string>
+     */
     public Collection $words;
 
     public function __construct()

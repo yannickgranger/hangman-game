@@ -47,7 +47,7 @@ RUN set -o -eux; \
 		zlib-dev \
 	; \
 	\
-	install-php-extensions http intl zip opcache redis amqp \
+	install-php-extensions mbstring http intl zip opcache redis amqp \
     ; \
 	docker-php-ext-enable \
 		opcache \

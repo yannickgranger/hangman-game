@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Hexagon\Behat;
 
 use App\Domain\Entity\HangmanGame;
+use App\Domain\ValueObject\Letter;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -20,35 +21,27 @@ use function PHPUnit\Framework\assertTrue;
  */
 final class GameContext implements Context
 {
-    /** @var KernelInterface */
-    private $kernel;
-
     private HangmanGame $game;
 
     /**
      * @BeforeScenario
      */
-    public function createGame()
+    public function createGame(): void
     {
         $this->game = new HangmanGame('apple', 6);
-    }
-
-    public function __construct(KernelInterface $kernel)
-    {
-        $this->kernel = $kernel;
     }
 
     /**
      * @Given the secret word is :arg1
      */
-    public function theSecretWordIs($arg1)
+    public function theSecretWordIs(string $arg1): void
     {
         assertEquals($arg1, $this->game->getWord()->getValue());
     }
     /**
      * @Given the player has :arg1 attempts
      */
-    public function thePlayerHasAttempts($arg1)
+    public function thePlayerHasAttempts(string $arg1): void
     {
         assertEquals($arg1, $this->game->getRemainingAttempts());
     }
@@ -56,15 +49,15 @@ final class GameContext implements Context
     /**
      * @When the player guesses the letter :arg1
      */
-    public function thePlayerGuessesTheLetter($arg1)
+    public function thePlayerGuessesTheLetter(string $arg1): void
     {
-        $this->game->playTurn($arg1);
+        $this->game->playTurn(new Letter($arg1));
     }
 
     /**
      * @Then the revealed word should be :arg1
      */
-    public function theRevealedWordShouldBe($arg1)
+    public function theRevealedWordShouldBe(string $arg1): void
     {
         assertEquals($arg1, $this->game->getWord()->getDisplay());
     }
@@ -72,7 +65,7 @@ final class GameContext implements Context
     /**
      * @Then the player should have :arg1 remaining attempts
      */
-    public function thePlayerShouldHaveRemainingAttempts($arg1)
+    public function thePlayerShouldHaveRemainingAttempts(string $arg1): void
     {
         assertEquals($arg1, $this->game->getRemainingAttempts());
     }
@@ -80,12 +73,12 @@ final class GameContext implements Context
     /**
      * @When the player guesses the letters:
      */
-    public function thePlayerGuessesTheLetters(TableNode $table)
+    public function thePlayerGuessesTheLetters(TableNode $table): void
     {
         $table = $table->getTable();
         $letters = array_pop($table);
         foreach ($letters as $letter) {
-            $this->game->playTurn($letter);
+            $this->game->playTurn(new Letter($letter));
         }
     }
     /**

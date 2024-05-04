@@ -9,6 +9,10 @@ use App\Domain\ValueObject\Letter;
 class Word
 {
     private string $value;
+
+    /**
+     * @var array<string>
+     */
     private array $revealedLetters;
 
     public function __construct(string $value)
@@ -22,6 +26,9 @@ class Word
         return $this->value;
     }
 
+    /**
+     * @return array<string>
+     */
     public function getRevealedLetters(): array
     {
         return $this->revealedLetters;
