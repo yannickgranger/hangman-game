@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Domain\Entity;
 
 use App\Domain\ValueObject\Letter;
+use InvalidArgumentException;
 
-class Word
+class Word implements \JsonSerializable
 {
     private string $value;
 
@@ -17,6 +18,9 @@ class Word
 
     public function __construct(string $value)
     {
+        if (!ctype_alpha($value)) {
+            throw new InvalidArgumentException("Word must only contain alphabetic characters");
+        }
         $this->value = $value;
         $this->revealedLetters = [];
     }
@@ -61,5 +65,10 @@ class Word
             $display .= in_array(strtolower($char), $this->revealedLetters) ? $char : '_';
         }
         return $display;
+    }
+
+    public function jsonSerialize(): string
+    {
+        return $this->value;
     }
 }

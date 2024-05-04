@@ -14,7 +14,6 @@ Feature: Hangman Game
         Then the revealed word should be "_____"
         And the player should have 5 remaining attempts
 
-    @reveal
     Scenario: Player wins the game
         Given the secret word is "apple"
         And the player has 6 attempts

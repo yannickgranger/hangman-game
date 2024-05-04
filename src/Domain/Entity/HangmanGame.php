@@ -10,10 +10,12 @@ class HangmanGame
 {
     private Word $word;
     private int $remainingAttempts;
+    private int $maxAttempts;
 
     public function __construct(string $word, int $maxAttempts)
     {
         $this->word = new Word($word);
+        $this->maxAttempts = $maxAttempts;
         $this->remainingAttempts = $maxAttempts;
     }
 
@@ -30,6 +32,11 @@ class HangmanGame
     public function playTurn(Letter $letter): bool
     {
         if ($this->isGameOver()) {
+            return false;
+        }
+
+        $alreadyGuessed = $this->word->isRevealedLetter($letter);
+        if($alreadyGuessed === true){
             return false;
         }
 
@@ -55,12 +62,48 @@ class HangmanGame
 
     public function getResultMessage(): string
     {
+        if(
+            $this->remainingAttempts === $this->maxAttempts
+            && $this->word->isRevealed() === false
+        ){
+            return sprintf(
+                "Welcome to Hangman! The word has %s letters.\n%s\nYou have %s guesses left.",
+                strlen($this->getWord()->getValue()),
+                $this->getWord()->getDisplay(),
+                $this->getRemainingAttempts()
+            );
+        }
         if ($this->remainingAttempts === 0) {
             return "You ran out of guesses. The word was: " . $this->word->getValue();
         } else {
             return sprintf("Congratulations! You guessed the word: %s", $this->word->getValue());
         }
     }
+
+
+    public function requestHint(): bool
+    {
+        $revealed = $this->word->getRevealedLetters();
+        $unrevealed = array_diff(str_split($this->word->getValue()), $revealed);
+        if (empty($unrevealed)) {
+            return false;
+        }
+
+        $toReveal = $unrevealed[array_rand($unrevealed)];
+        $this->word->guess(new Letter($toReveal));
+        $positions = [];
+
+        for ($i = 0; $i < strlen($this->word->getValue()); $i++) {
+            if ($this->word->getValue()[$i] === $toReveal) {
+                $positions[] = $i;
+            }
+        }
+
+        $numberOfGuessesUsed = count($positions);
+        $this->remainingAttempts = max($this->remainingAttempts - $numberOfGuessesUsed, 0);
+
+        return $numberOfGuessesUsed > 0;
+     }
 
     public function isGameOver(): bool
     {
