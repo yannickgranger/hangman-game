@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     max_attempts: '%env(int:DEFAULT_MAX_ATTEMPTS)%'
+    default_difficulty: '%env(int:DEFAULT_DIFFICULTY)%'
 
 services:
     # default configuration for services in *this* file
@@ -36,8 +37,8 @@ services:
             - '@App\UI\Http\CreateGameActionResponder'
             - '@App\Domain\Repository\GameRepositoryInterface'
             - '@App\Domain\Repository\WordRepositoryInterface'
-            - '%default_max_attempts%'
-            - '%default_dificulty%'
+            - '%max_attempts%'
+            - '%default_difficulty%'
 
     App\UI\Http\Serializer\Normalizer\GameNormalizer:
         class: App\UI\Http\Serializer\Normalizer\GameNormalizer
@@ -47,9 +48,4 @@ services:
     App\Domain\UseCase\InitializeGameUseCase:
       arguments:
         - '@App\Domain\Repository\WordRepositoryInterface'
-        - '%max_attempts%'
-
-    App\UI\CLI\SubCommand\InitializeGameCommand:
-      arguments:
-        - '6'
         - '%max_attempts%'
