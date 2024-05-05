@@ -12,9 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
-/**
- * @deprecated Use PlayCommandMod instead
- */
 #[AsCommand(name: 'app:hangman:play', description: 'Start the hangman game')]
 class PlayGameCommand extends Command
 {
