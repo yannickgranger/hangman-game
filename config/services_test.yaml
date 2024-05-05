@@ -3,5 +3,17 @@ services:
         autowire: true
         autoconfigure: true
 
-    App\Tests\Behat\:
-        resource: '../tests/Behat/*'
+    App\Tests\Hexagon\:
+        resource: '../tests/Hexagon/*'
+
+    App\Domain\Repository\WordRepositoryInterface:
+        class: App\Tests\__Mock__\WordInMemoryRepository
+
+    App\Domain\UseCase\PlayGameUseCase:
+        arguments:
+            - '@App\Domain\Repository\WordRepositoryInterface'
+            - '%max_attempts%'
+
+    App\Tests\Cli\Bdd\CliPlayContext:
+        arguments:
+            - '@App\Domain\UseCase\PlayGameUseCase'

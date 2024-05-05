@@ -1,21 +1,42 @@
 #!make
 
+APP = app_game
 PHPUNIT_BIN = vendor/bin/phpunit
 BEHAT_BIN = vendor/bin/behat
+PHPSTAN = vendor/bin/phpstan
 DOCKER_COMPOSE = docker compose -f docker-compose.yml -f docker-compose.dev.yml
 
-all: bdd tdd
 
-behat:
+# play
+play:
+	- ${DOCKER_COMPOSE} exec ${APP} sh -c "bin/console app:hangman:play"
+
+# dev
+tests: bdd tdd clean
+
+bdd:
 	@APP_ENV=test $(BEHAT_BIN)
 
-phpunit:
+tdd:
 	@APP_ENV=test $(PHPUNIT_BIN) tests/
+
+
+quality: phpstan
+
+phpstan:
+	@${PHPSTAN} analyze src
+	@${PHPSTAN} analyze tests
 
 clean:
 	@rm -rf coverage/
 
-.PHONY: all bdd tdd clean
+
+# docker
+app:
+	${DOCKER_COMPOSE} exec ${APP} sh
+
+build:
+	${DOCKER_COMPOSE} build
 
 up:
 	${DOCKER_COMPOSE} up -d

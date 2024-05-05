@@ -17,14 +17,15 @@ Navigate to the project directory and run:
 ``$ docker-compose build``
 
 
-
-3. Run application:
-
+## Run application:
 
 ``$ docker-compose up -d`` 
 
 This starts the Nginx container for web serving and the PHP-fpm container for application logic. They communicate securely using a shared Unix socket within a custom network.
 
+``$ make app`` to enter the game container CLI
+
+``$ make play`` to launch CLI game
 
 ## Clean Architecture with PHP
 
@@ -68,6 +69,9 @@ Initially, the tests will fail as the corresponding code doesn't exist.
 - "feature/api" shows a quick API built to interact
 - "feature/ui" bootstraps a quick UI front with Vuejs
 
+## Documentation:
+see ./doc/ folder for business documentation and workflow used, plus other technical consideration
+
 ## Conclusion:
 
 - domain respects business rules, hexagon is tested (build by tests)
@@ -76,4 +80,4 @@ Initially, the tests will fail as the corresponding code doesn't exist.
 - we could add persistency with whatever system, infra is implementation detail
 - don't focus on framework / tools, but domain
 - easy to maintain, apply changes on business requirements
-- no "anemic CRUD"
+- no "anemic CRUD", code focuses on rules of the game
