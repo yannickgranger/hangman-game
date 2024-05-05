@@ -39,6 +39,44 @@ This document details the rules for a minimalistic but correct UX.
    *  A player can request a hint, which mean a letter will be revealed, randomly choosed between unrevealed letters. The number of occurences of this letter are deducted from the remaining attempts. 
    A hint is requestable only if there's remaining unrevealed letters.
 
+
+
+7. **Difficulty:**
+   ```
+   1. Word Length:
+      Easy: Choose shorter words (4-6 letters) to give players more attempts and a higher chance of guessing correctly.
+      Medium: Use words of moderate length (7-8 letters) to provide a balanced challenge.
+      Hard: Select longer words (9+ letters) that require more careful deduction and strategic guessing.
+   
+   2. Number of Allowed Attempts:
+      Easy: Increase the number of allowed attempts to give players more room for error.
+      Medium: Use a moderate number of attempts (around 6-8) to strike a balance between challenge and frustration.
+      Hard: Decrease the number of allowed attempts (4-5) to create a more intense game where each guess needs to be well-considered.
+   
+   3. Providing Hints:
+      Easy: Offer more frequent hints, such as revealing a random vowel or a consonant that hasn't been guessed yet.
+      Medium: Allow players to request hints at any point, but limit the number of available hints per game.
+      Hard: Restrict or eliminate access to hints, forcing players to rely solely on their deduction skills.
+
+   4. Categorized Word Lists:
+      Easy: Use word lists with simpler vocabulary and common words.
+      Medium: Choose words from a broader range of categories, including some less common words.
+      Hard: Utilize word lists containing complex vocabulary, obscure terms, or proper nouns.
+
+   5. Dynamic Difficulty Adjustment:
+      Implement a system that adjusts difficulty based on player performance. If a player is struggling, increase the word length or offer more hints on subsequent rounds. Conversely, for a player who excels, decrease the word length or limit hints.
+      Implementation Considerations:
+      You can create configuration settings or difficulty levels to allow players to choose their preferred challenge.
+      Difficulty settings can be integrated with the word selection process to ensure appropriate word choices based on the chosen difficulty.
+      Consider a combination of these approaches to create a more nuanced difficulty system that adapts to player skill.
+      
+      Additional Ideas:
+      Introduce a time limit for guesses to add an extra layer of pressure in harder difficulties.
+      Implement a scoring system based on the number of guesses remaining and the number of hints used to encourage efficient play.
+      Allow players to unlock new difficulty levels or word categories as they progress through the game.
+      By incorporating these suggestions, you can provide a more engaging and customizable experience for players of all skill levels.
+   ```
+
 ### Additional Considerations
 
 * **Visual Representation:** The application
