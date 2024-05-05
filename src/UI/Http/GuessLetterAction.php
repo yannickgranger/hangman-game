@@ -47,7 +47,7 @@ final class GuessLetterAction
         // when you throw exceptions,
         // remember to can create an exception listener for exceptions you forgot to catch
         // because you are supposed to catch exceptions ...
-        if(!$game instanceof HangmanGame){
+        if(!$game instanceof HangmanGame) {
             throw new GameNotFoundException();
         }
 

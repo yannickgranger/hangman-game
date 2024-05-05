@@ -22,7 +22,8 @@ class CreateGameActionResponder
     public function handle(Uuid $id, HangmanGame $game): JsonResponse
     {
         return new JsonResponse(
-            array_merge([
+            array_merge(
+                [
                 'id' => $id->toRfc4122(),
             ],
                 $this->serializer->normalize($game, 'json')

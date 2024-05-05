@@ -38,7 +38,7 @@ class HangmanGame implements \JsonSerializable
         }
 
         $alreadyGuessed = $this->word->isRevealedLetter($letter);
-        if($alreadyGuessed === true){
+        if($alreadyGuessed === true) {
             return false;
         }
 
@@ -67,7 +67,7 @@ class HangmanGame implements \JsonSerializable
         if(
             $this->remainingAttempts === $this->maxAttempts
             && $this->word->isRevealed() === false
-        ){
+        ) {
             return sprintf(
                 "Welcome to Hangman! The word has %s letters.\n%s\nYou have %s guesses left.",
                 strlen($this->getWord()->getValue()),
@@ -104,7 +104,7 @@ class HangmanGame implements \JsonSerializable
         $this->remainingAttempts = max($this->remainingAttempts - $numberOfGuessesUsed, 0);
 
         return $numberOfGuessesUsed > 0;
-     }
+    }
 
     public function isGameOver(): bool
     {

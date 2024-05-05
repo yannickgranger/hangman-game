@@ -13,6 +13,7 @@ use Behat\Behat\Context\Context;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+
 use function PHPUnit\Framework\assertInstanceOf;
 
 class CliContext implements Context

@@ -25,7 +25,7 @@ class HintTest extends KernelTestCase
         $game->requestHint();
 
         $decreasedGuess = count($game->getWord()->getRevealedLetters());
-        $this->assertEquals($this->maxAttempts-$decreasedGuess, $game->getRemainingAttempts());
+        $this->assertEquals($this->maxAttempts - $decreasedGuess, $game->getRemainingAttempts());
 
         $revealed = $game->getWord()->getRevealedLetters();
         $letter = array_pop($revealed);
@@ -39,8 +39,8 @@ class HintTest extends KernelTestCase
 
         $position = $positions[0];
         $myWord = '';
-        for($i = 0; $i < strlen($word); $i++){
-            if($i === $position){
+        for($i = 0; $i < strlen($word); $i++) {
+            if($i === $position) {
                 $myWord .= $letter;
             } else {
                 $myWord .= '_';
@@ -71,7 +71,7 @@ class HintTest extends KernelTestCase
         $revealed = $game->getWord()->getRevealedLetters();
         $myWord = '';
         for ($i = 0; $i < strlen($word); $i++) {
-            foreach ($revealed as $letter){
+            foreach ($revealed as $letter) {
                 if ($word[$i] === $letter) {
                     $myWord .= $letter;
                 }

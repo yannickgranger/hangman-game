@@ -11,5 +11,4 @@ namespace App\Domain\Exception;
  */
 class GameNotFoundException extends \LogicException
 {
-
 }
