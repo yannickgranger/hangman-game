@@ -9,12 +9,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Random\RandomException;
 
-class InMemoryWordRepository implements WordRepositoryInterface
+class WordInMemoryRepository implements WordRepositoryInterface
 {
     /**
-     * @var Collection<int, string>|ArrayCollection<int, string>
+     * @var ArrayCollection<int, string>|Collection<int, string>
      */
-    public Collection $words;
+    public Collection|ArrayCollection $words;
 
     public function __construct()
     {

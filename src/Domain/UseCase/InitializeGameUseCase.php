@@ -20,6 +20,6 @@ class InitializeGameUseCase
 
     public function execute(): HangmanGame
     {
-        return new HangmanGame($this->wordRepository->getRandomWord(), $this->maxAttempts, 5);
+        return new HangmanGame($this->wordRepository->getRandomWord(), $this->maxAttempts);
     }
 }

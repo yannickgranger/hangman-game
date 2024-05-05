@@ -22,7 +22,7 @@ class PlayGameUseCase
     public function startGame(): Game
     {
         $word = $this->wordRepository->getRandomWord();
-        return new Game($word, $this->maxAttempts);
+        return new Game($word, $this->maxAttempts, 5);
     }
 
     public function makeGuess(Game $game, Letter $letter): bool

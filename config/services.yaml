@@ -19,20 +19,37 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
-            - '../src/UI/CLI/SubCommand'
             - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     App\Domain\Repository\WordRepositoryInterface:
-        class: App\Infra\Persistence\Repository\InMemoryWordRepository
+        class: App\Infra\Persistence\Repository\WordInMemoryRepository
 
     App\Domain\UseCase\PlayGameUseCase:
         arguments:
             - '@App\Domain\Repository\WordRepositoryInterface'
             - '%max_attempts%'
 
-    App\Domain\UseCase\InitializeGameUseCase:
+    App\UI\Http\CreateGameAction:
         arguments:
+            - '@App\UI\Http\CreateGameActionResponder'
+            - '@App\Domain\Repository\GameRepositoryInterface'
             - '@App\Domain\Repository\WordRepositoryInterface'
-            - '%max_attempts%'
+            - '%default_max_attempts%'
+            - '%default_dificulty%'
+
+    App\UI\Http\Serializer\Normalizer\GameNormalizer:
+        class: App\UI\Http\Serializer\Normalizer\GameNormalizer
+        tags:
+            - { name: serializer.normalizer }
+
+    App\Domain\UseCase\InitializeGameUseCase:
+      arguments:
+        - '@App\Domain\Repository\WordRepositoryInterface'
+        - '%max_attempts%'
+
+    App\UI\CLI\SubCommand\InitializeGameCommand:
+      arguments:
+        - '6'
+        - '%max_attempts%'
