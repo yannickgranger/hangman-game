@@ -28,7 +28,7 @@ final class GameContext implements Context
      */
     public function createGame(): void
     {
-        $this->game = new HangmanGame('apple', 6);
+        $this->game = new HangmanGame('apple', 6, 5);
     }
 
     /**

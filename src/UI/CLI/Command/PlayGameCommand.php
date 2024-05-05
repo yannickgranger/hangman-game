@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\CLI;
+namespace App\UI\CLI\Command;
 
 use App\Domain\UseCase\PlayGameUseCase;
 use App\Domain\ValueObject\Letter;
@@ -12,6 +12,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
+/**
+ * @deprecated Use PlayCommandMod instead
+ */
 #[AsCommand(name: 'app:hangman:play', description: 'Start the hangman game')]
 class PlayGameCommand extends Command
 {

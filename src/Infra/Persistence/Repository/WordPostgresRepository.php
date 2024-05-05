@@ -6,7 +6,7 @@ namespace App\Infra\Persistence\Repository;
 
 use App\Domain\Repository\WordRepositoryInterface;
 
-class PostgresWordRepository implements WordRepositoryInterface
+class WordPostgresRepository implements WordRepositoryInterface
 {
     public function getRandomWord(): string
     {
