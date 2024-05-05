@@ -6,17 +6,19 @@ namespace App\Domain\Entity;
 
 use App\Domain\ValueObject\Letter;
 
-class HangmanGame
+class HangmanGame implements \JsonSerializable
 {
     private Word $word;
     private int $remainingAttempts;
     private int $maxAttempts;
+    private int $difficulty;
 
-    public function __construct(string $word, int $maxAttempts)
+    public function __construct(string $word, int $maxAttempts, int $difficulty)
     {
         $this->word = new Word($word);
         $this->maxAttempts = $maxAttempts;
         $this->remainingAttempts = $maxAttempts;
+        $this->difficulty = $difficulty;
     }
 
     public function getWord(): Word
@@ -80,7 +82,6 @@ class HangmanGame
         }
     }
 
-
     public function requestHint(): bool
     {
         $revealed = $this->word->getRevealedLetters();
@@ -108,5 +109,23 @@ class HangmanGame
     public function isGameOver(): bool
     {
         return $this->remainingAttempts === 0 || $this->word->isRevealed();
+    }
+
+    public function getDifficulty(): int
+    {
+        return $this->difficulty;
+    }
+
+    public function jsonSerialize(): string
+    {
+        return json_encode(
+            [
+                'word' => json_encode($this->word),
+                'remaining_attempts' => $this->remainingAttempts,
+                'max_attempts' => $this->maxAttempts,
+                'difficulty' => $this->difficulty
+            ],
+            JSON_PRETTY_PRINT
+        );
     }
 }

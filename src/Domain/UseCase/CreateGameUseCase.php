@@ -7,6 +7,7 @@ namespace App\Domain\UseCase;
 use App\Domain\Entity\HangmanGame;
 use App\Domain\Repository\GameRepositoryInterface;
 use App\Domain\Repository\WordRepositoryInterface;
+use Symfony\Component\Uid\Uuid;
 
 class CreateGameUseCase
 {
@@ -19,7 +20,12 @@ class CreateGameUseCase
         $this->wordRepository = $wordRepository;
     }
 
-    public function execute(int $maxAttempts, ?int $difficulty): HangmanGame
+    /**
+     * @param int $maxAttempts
+     * @param int|null $difficulty
+     * @return array
+     */
+    public function execute(int $maxAttempts, ?int $difficulty): array
     {
         $hangmanGame = new HangmanGame(
             word: $this->wordRepository->getRandomWord(),
@@ -27,8 +33,11 @@ class CreateGameUseCase
             difficulty: $difficulty
         );
 
-        $this->gameRepository->save($hangmanGame);
+        $id = $this->gameRepository->save($hangmanGame);
 
-        return $hangmanGame;
+        return [
+            'id' => $id,
+            'game' => $hangmanGame
+        ];
     }
 }

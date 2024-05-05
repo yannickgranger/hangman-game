@@ -8,6 +8,7 @@ use App\Domain\Entity\HangmanGame;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Uid\Uuid;
 
 class CreateGameActionResponder
 {
@@ -18,10 +19,14 @@ class CreateGameActionResponder
         $this->serializer = $serializer;
     }
 
-    public function handle(HangmanGame $game): JsonResponse
+    public function handle(Uuid $id, HangmanGame $game): JsonResponse
     {
         return new JsonResponse(
-            $this->serializer->normalize($game, 'json'),
+            array_merge([
+                'id' => $id->toRfc4122(),
+            ],
+                $this->serializer->normalize($game, 'json')
+            ),
             Response::HTTP_OK
         );
     }

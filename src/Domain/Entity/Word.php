@@ -69,7 +69,7 @@ class Word implements \JsonSerializable
 
     public function jsonSerialize(): string
     {
-        return $this->value;
+        return json_encode(Word::toArray($this), JSON_PRETTY_PRINT);
     }
 
     /**

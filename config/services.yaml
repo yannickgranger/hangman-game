@@ -49,3 +49,14 @@ services:
       arguments:
         - '@App\Domain\Repository\WordRepositoryInterface'
         - '%max_attempts%'
+
+    App\Infra\Persistence\Repository\GameRedisRepository:
+      arguments:
+          - '@Redis'
+
+    Redis:
+        class: Redis
+        factory: ['App\Infra\KvStorage\Adapter\RedisAdapterFactory', 'getAdapter']
+        arguments:
+            $host: 'redis'
+            $port: '6379'
