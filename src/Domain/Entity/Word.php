@@ -71,4 +71,17 @@ class Word implements \JsonSerializable
     {
         return $this->value;
     }
+
+    /**
+     * @param Word $word
+     * @return array<string, string>
+     */
+    public static function toArray(Word $word): array
+    {
+        return  [
+            'value' => $word->getValue(),
+            'revealed_letters' => $word->getRevealedLetters(),
+            'display' => $word->getDisplay()
+        ];
+    }
 }
