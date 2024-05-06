@@ -21,7 +21,7 @@ class HintTest extends KernelTestCase
 
     public function testRequestingSingleLetterHint()
     {
-        $game = new HangmanGame('magic', 6);
+        $game = new HangmanGame('magic', 6,5);
         $game->requestHint();
 
         $decreasedGuess = count($game->getWord()->getRevealedLetters());
@@ -52,7 +52,7 @@ class HintTest extends KernelTestCase
     public function testRequestingSingleLetterHintFromAnanas()
     {
         $word = 'ananas';
-        $game = new HangmanGame($word, 6);
+        $game = new HangmanGame($word, 6,5);
         $game->playTurn(new Letter('a'));
         $game->playTurn(new Letter('s'));
         $remainingGuesses = $game->getRemainingAttempts();

@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Random\RandomException;
 
-class InMemoryWordRepository implements WordRepositoryInterface
+class WordInMemoryRepository implements WordRepositoryInterface
 {
     /**
      * @var Collection<int, string>|ArrayCollection<int, string>
@@ -19,6 +19,7 @@ class InMemoryWordRepository implements WordRepositoryInterface
     public function __construct()
     {
         $this->words = new ArrayCollection([
+            'ananas',
             'apple',
             'banana',
             'kiwi',
