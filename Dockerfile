@@ -47,7 +47,7 @@ RUN set -o -eux; \
 		zlib-dev \
 	; \
 	\
-	install-php-extensions http intl zip opcache redis amqp \
+	install-php-extensions mbstring http intl zip opcache redis amqp \
     ; \
 	docker-php-ext-enable \
 		opcache \
@@ -81,6 +81,7 @@ HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV COMPOSER_HOME=/composer
 
 RUN ln -s "$PHP_INI_DIR"/php.ini-production "$PHP_INI_DIR"/php.ini ; \
     set -eux; \
@@ -96,7 +97,7 @@ RUN ln -s "$PHP_INI_DIR"/php.ini-production "$PHP_INI_DIR"/php.ini ; \
     && apk del tzdata; \
     sync
 
-VOLUME /srv/app/var
+VOLUME /srv/app/var /composer
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
