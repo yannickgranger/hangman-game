@@ -5,6 +5,7 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     max_attempts: '%env(int:DEFAULT_MAX_ATTEMPTS)%'
+    default_difficulty: '%env(int:DEFAULT_DIFFICULTY)%'
 
 services:
     # default configuration for services in *this* file
@@ -19,20 +20,47 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
-            - '../src/UI/CLI/SubCommand'
             - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     App\Domain\Repository\WordRepositoryInterface:
-        class: App\Infra\Persistence\Repository\InMemoryWordRepository
+        class: App\Infra\Persistence\Repository\WordInMemoryRepository
 
     App\Domain\UseCase\PlayGameUseCase:
         arguments:
             - '@App\Domain\Repository\WordRepositoryInterface'
             - '%max_attempts%'
+            - '%default_difficulty%'
+
+    App\UI\Http\CreateGameAction:
+        arguments:
+            - '@App\UI\Http\CreateGameActionResponder'
+            - '@App\Domain\Repository\GameRepositoryInterface'
+            - '@App\Domain\Repository\WordRepositoryInterface'
+            - '%max_attempts%'
+            - '%default_difficulty%'
+
+    App\UI\Http\Serializer\Normalizer\GameNormalizer:
+        class: App\UI\Http\Serializer\Normalizer\GameNormalizer
+        tags:
+            - { name: serializer.normalizer }
 
     App\Domain\UseCase\InitializeGameUseCase:
         arguments:
             - '@App\Domain\Repository\WordRepositoryInterface'
             - '%max_attempts%'
+
+    App\Domain\Repository\GameRepositoryInterface:
+        class: App\Infra\Persistence\Repository\GameRedisRepository
+
+    App\Infra\Persistence\Repository\GameRedisRepository:
+        arguments:
+            - '@Redis'
+
+    Redis:
+        class: Redis
+        factory: ['App\Infra\Persistence\KvStorage\Adapter\RedisAdapterFactory', 'getAdapter']
+        arguments:
+            $host: 'redis'
+            $port: '6379'

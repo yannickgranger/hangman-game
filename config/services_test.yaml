@@ -13,6 +13,7 @@ services:
         arguments:
             - '@App\Domain\Repository\WordRepositoryInterface'
             - '%max_attempts%'
+            - '%default_difficulty%'
 
     App\Tests\Cli\Bdd\CliPlayContext:
         arguments:

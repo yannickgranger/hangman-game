@@ -6,7 +6,7 @@ Feature: Allowing Multiple Players
     Then the game should take turns from each player
     And the remaining attempts should be shared among players
 
-  Scenario: Losing a Turn in Multiplayer Game
+  Scenario: Loosing a Turn in Multiplayer Game
     Given a new game has started with multiple players
     When a player guesses an incorrect letter
     Then the turn should be passed to the next player
