@@ -69,6 +69,19 @@ class Word implements \JsonSerializable
 
     public function jsonSerialize(): string
     {
-        return $this->value;
+        return json_encode(Word::toArray($this), JSON_PRETTY_PRINT);
+    }
+
+    /**
+     * @param Word $word
+     * @return array<string, string>
+     */
+    public static function toArray(Word $word): array
+    {
+        return  [
+            'value' => $word->getValue(),
+            'revealed_letters' => $word->getRevealedLetters(),
+            'display' => $word->getDisplay()
+        ];
     }
 }
