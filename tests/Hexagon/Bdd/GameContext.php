@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Hexagon\Bdd;
 
 use App\Domain\Entity\HangmanGame;
+use App\Domain\Entity\Word;
 use App\Domain\ValueObject\Letter;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
 use Symfony\Component\HttpKernel\KernelInterface;
+
+use Symfony\Component\Uid\Uuid;
 
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertTrue;
@@ -28,7 +31,14 @@ final class GameContext implements Context
      */
     public function createGame(): void
     {
-        $this->game = new HangmanGame('apple', 6, 5);
+        $this->game = new HangmanGame(
+            id: Uuid::v4(),
+            word: new Word(
+                'apple'
+            ),
+            maxAttempts: 6,
+            difficulty: 5
+        );
     }
 
     /**

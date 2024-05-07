@@ -11,5 +11,4 @@ namespace App\Infra\Exception;
  */
 class InvalidGuessFormatException
 {
-
 }

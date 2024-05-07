@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Tests\Cli\Integration;
 
 use App\Domain\Entity\HangmanGame;
+use App\Domain\Entity\Word;
 use App\Domain\ValueObject\Letter;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Uid\Uuid;
 
 class HintTest extends KernelTestCase
 {
@@ -21,11 +23,11 @@ class HintTest extends KernelTestCase
 
     public function testRequestingSingleLetterHint()
     {
-        $game = new HangmanGame('magic', 6,5);
+        $game = new HangmanGame(Uuid::v4(), new Word('magic'), 6, 5);
         $game->requestHint();
 
         $decreasedGuess = count($game->getWord()->getRevealedLetters());
-        $this->assertEquals($this->maxAttempts-$decreasedGuess, $game->getRemainingAttempts());
+        $this->assertEquals($this->maxAttempts - $decreasedGuess, $game->getRemainingAttempts());
 
         $revealed = $game->getWord()->getRevealedLetters();
         $letter = array_pop($revealed);
@@ -39,8 +41,8 @@ class HintTest extends KernelTestCase
 
         $position = $positions[0];
         $myWord = '';
-        for($i = 0; $i < strlen($word); $i++){
-            if($i === $position){
+        for($i = 0; $i < strlen($word); $i++) {
+            if($i === $position) {
                 $myWord .= $letter;
             } else {
                 $myWord .= '_';
@@ -52,7 +54,7 @@ class HintTest extends KernelTestCase
     public function testRequestingSingleLetterHintFromAnanas()
     {
         $word = 'ananas';
-        $game = new HangmanGame($word, 6,5);
+        $game = new HangmanGame(Uuid::v4(), new Word($word), 6, 5);
         $game->playTurn(new Letter('a'));
         $game->playTurn(new Letter('s'));
         $remainingGuesses = $game->getRemainingAttempts();
@@ -71,7 +73,7 @@ class HintTest extends KernelTestCase
         $revealed = $game->getWord()->getRevealedLetters();
         $myWord = '';
         for ($i = 0; $i < strlen($word); $i++) {
-            foreach ($revealed as $letter){
+            foreach ($revealed as $letter) {
                 if ($word[$i] === $letter) {
                     $myWord .= $letter;
                 }

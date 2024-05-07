@@ -5,20 +5,28 @@ declare(strict_types=1);
 namespace App\Domain\Entity;
 
 use App\Domain\ValueObject\Letter;
+use Symfony\Component\Uid\Uuid;
 
 class HangmanGame implements \JsonSerializable
 {
+    private Uuid $id;
     private Word $word;
     private int $remainingAttempts;
     private int $maxAttempts;
     private int $difficulty;
 
-    public function __construct(string $word, int $maxAttempts, int $difficulty)
+    public function __construct(Uuid $id, Word $word, int $maxAttempts, int $difficulty)
     {
-        $this->word = new Word($word);
+        $this->id = $id;
+        $this->word = $word;
         $this->maxAttempts = $maxAttempts;
         $this->remainingAttempts = $maxAttempts;
         $this->difficulty = $difficulty;
+    }
+
+    public function getId(): Uuid
+    {
+        return $this->id;
     }
 
     public function getWord(): Word
@@ -38,7 +46,7 @@ class HangmanGame implements \JsonSerializable
         }
 
         $alreadyGuessed = $this->word->isRevealedLetter($letter);
-        if($alreadyGuessed === true){
+        if($alreadyGuessed === true) {
             return false;
         }
 
@@ -67,7 +75,7 @@ class HangmanGame implements \JsonSerializable
         if(
             $this->remainingAttempts === $this->maxAttempts
             && $this->word->isRevealed() === false
-        ){
+        ) {
             return sprintf(
                 "Welcome to Hangman! The word has %s letters.\n%s\nYou have %s guesses left.",
                 strlen($this->getWord()->getValue()),
@@ -104,7 +112,7 @@ class HangmanGame implements \JsonSerializable
         $this->remainingAttempts = max($this->remainingAttempts - $numberOfGuessesUsed, 0);
 
         return $numberOfGuessesUsed > 0;
-     }
+    }
 
     public function isGameOver(): bool
     {
@@ -115,7 +123,7 @@ class HangmanGame implements \JsonSerializable
     {
         return json_encode(
             [
-                'word' => json_encode($this->word),
+                'word' => $this->word->toArray(),
                 'remaining_attempts' => $this->remainingAttempts,
                 'max_attempts' => $this->maxAttempts,
                 'difficulty' => $this->difficulty
@@ -127,5 +135,15 @@ class HangmanGame implements \JsonSerializable
     public function getDifficulty(): int
     {
         return $this->difficulty;
+    }
+
+    public function getMaxAttempts(): int
+    {
+        return $this->maxAttempts;
+    }
+
+    public function setRemainingAttempts(int $remainingAttempts): void
+    {
+        $this->remainingAttempts = $remainingAttempts;
     }
 }

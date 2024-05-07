@@ -19,15 +19,10 @@ class CreateGameActionResponder
         $this->serializer = $serializer;
     }
 
-    public function handle(Uuid $id, HangmanGame $game): JsonResponse
+    public function handle(HangmanGame $game): JsonResponse
     {
         return new JsonResponse(
-            array_merge(
-                [
-                    'id' => $id->toRfc4122(),
-                ],
-                $this->serializer->normalize($game, 'json')
-            ),
+            $this->serializer->normalize($game, 'json'),
             Response::HTTP_OK
         );
     }
