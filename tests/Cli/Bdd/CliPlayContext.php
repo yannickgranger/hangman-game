@@ -12,6 +12,7 @@ use Behat\Behat\Tester\Exception\PendingException;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpKernel\KernelInterface;
+
 use function PHPUnit\Framework\assertCount;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertFalse;
@@ -106,10 +107,11 @@ class CliPlayContext implements Context
      */
     public function theLetterShouldBeRevealedInAllItsCorrectPositions()
     {
-        assertStringContainsString("You guessed the letter a.",
+        assertStringContainsString(
+            "You guessed the letter a.",
             $this->game->getFeedback(new Letter("a"), true)
         );
-        assertEquals("a_a_a_",$this->game->getWord()->getDisplay());
+        assertEquals("a_a_a_", $this->game->getWord()->getDisplay());
     }
 
 
@@ -120,7 +122,8 @@ class CliPlayContext implements Context
     {
         $maxAttempts = $this->kernel->getContainer()->getParameter('max_attempts');
         assertEquals(
-            $this->game->getRemainingAttempts(), $maxAttempts
+            $this->game->getRemainingAttempts(),
+            $maxAttempts
         );
     }
     /**
@@ -130,7 +133,8 @@ class CliPlayContext implements Context
     {
         $maxAttempts = $this->kernel->getContainer()->getParameter('max_attempts');
         assertEquals(
-            $this->game->getRemainingAttempts(), $maxAttempts - 1
+            $this->game->getRemainingAttempts(),
+            $maxAttempts - 1
         );
     }
 
@@ -173,8 +177,10 @@ class CliPlayContext implements Context
      */
     public function theCompleteWordShouldBeShown()
     {
-        assertStringContainsString('ananas',
-        $this->game->getResultMessage());
+        assertStringContainsString(
+            'ananas',
+            $this->game->getResultMessage()
+        );
     }
     /**
      * @When I use up all my attempts by guessing incorrect letters
@@ -195,6 +201,6 @@ class CliPlayContext implements Context
      */
     public function aMessageIndicatingDefeatShouldBeDisplayed()
     {
-        assertEquals($this->game->getResultMessage(),'You ran out of guesses. The word was: ananas');
+        assertEquals($this->game->getResultMessage(), 'You ran out of guesses. The word was: ananas');
     }
 }

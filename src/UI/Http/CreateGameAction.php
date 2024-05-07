@@ -28,7 +28,7 @@ class CreateGameAction
         WordRepositoryInterface $wordRepository,
         int $defaultMaxAttempts,
         int $defaultDifficulty
-    ){
+    ) {
         $this->actionResponder = $actionResponder;
         $this->gameRepository = $gameRepository;
         $this->wordRepository = $wordRepository;
@@ -57,11 +57,8 @@ class CreateGameAction
 
         $maxAttempts = $requestContent['maxAttempts'] ?? $this->defaultMaxAttempts;
         $difficulty = $requestContent['difficulty'] ?? $this->defaultDifficulty;
-
-        $result = $useCase->execute($maxAttempts, $difficulty);
         return $this->actionResponder->handle(
-            id: $result['id'],
-            game: $result['game']
+            $useCase->execute($maxAttempts, $difficulty)
         );
     }
 }

@@ -67,21 +67,29 @@ class Word implements \JsonSerializable
         return $display;
     }
 
-    public function jsonSerialize(): string
+    /**
+     * @param array $revealedLetters<string>
+     * @return void
+     */
+    public function setRevealedLetters(array $revealedLetters): void
     {
-        return json_encode(Word::toArray($this), JSON_PRETTY_PRINT);
+        $this->revealedLetters = $revealedLetters;
     }
 
     /**
-     * @param Word $word
      * @return array<string, string>
      */
-    public static function toArray(Word $word): array
+    public function toArray(): array
     {
         return  [
-            'value' => $word->getValue(),
-            'revealed_letters' => $word->getRevealedLetters(),
-            'display' => $word->getDisplay()
+            'value' => $this->getValue(),
+            'revealed_letters' => $this->getRevealedLetters(),
+            'display' => $this->getDisplay()
         ];
+    }
+
+    public function jsonSerialize(): string
+    {
+        return json_encode($this, JSON_PRETTY_PRINT);
     }
 }

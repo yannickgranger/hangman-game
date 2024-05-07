@@ -6,5 +6,4 @@ namespace App\Infra\Exception\Listener;
 
 class ExceptionListener
 {
-
 }

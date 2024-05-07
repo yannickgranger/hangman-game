@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Domain\UseCase;
 
 use App\Domain\Entity\HangmanGame;
+use App\Domain\Entity\Word;
 use App\Domain\Repository\GameRepositoryInterface;
 use App\Domain\Repository\WordRepositoryInterface;
+use Symfony\Component\Uid\Uuid;
 
 class CreateGameUseCase
 {
@@ -22,21 +24,19 @@ class CreateGameUseCase
     /**
      * @param int $maxAttempts
      * @param int|null $difficulty
-     * @return array
+     * @return HangmanGame
      */
-    public function execute(int $maxAttempts, ?int $difficulty): array
+    public function execute(int $maxAttempts, ?int $difficulty): HangmanGame
     {
         $hangmanGame = new HangmanGame(
-            word: $this->wordRepository->getRandomWord(),
+            id: $id = Uuid::v4(),
+            word: new Word($this->wordRepository->getRandomWord()),
             maxAttempts: $maxAttempts,
             difficulty: $difficulty
         );
 
-        $id = $this->gameRepository->save($hangmanGame);
+        $this->gameRepository->save($hangmanGame);
 
-        return [
-            'id' => $id,
-            'game' => $hangmanGame
-        ];
+        return $hangmanGame;
     }
 }

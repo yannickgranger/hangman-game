@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\UI\Http\Serializer\Normalizer;
 
 use App\Domain\Entity\HangmanGame;
-use App\Domain\Entity\Word;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class GameNormalizer implements NormalizerInterface
@@ -14,8 +13,10 @@ class GameNormalizer implements NormalizerInterface
     {
         /** @var HangmanGame $object */
         return [
-            'word' => Word::toArray($object->getWord()), /* here could make a WordNormalizer, would be cleaner */
+            'id' => $object->getId(),
+            'word' => $object->getWord()->toArray(), /* here could make a WordNormalizer, would be cleaner */
             'remaining_attempts' => $object->getRemainingAttempts(),
+            'max_attempts' => $object->getMaxAttempts(),
             'difficulty' => $object->getDifficulty()
         ];
     }
