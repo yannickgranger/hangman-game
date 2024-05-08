@@ -9,7 +9,7 @@ use App\Infra\Persistence\Repository\WordInMemoryRepository;
 use PHPUnit\Framework\TestCase;
 use Random\RandomException;
 
-class InMemoryWordRepositoryTest extends TestCase
+class WordInMemoryRepositoryTest extends TestCase
 {
     private WordRepositoryInterface $wordRepository;
 

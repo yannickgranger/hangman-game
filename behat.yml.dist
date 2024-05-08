@@ -3,6 +3,7 @@ default:
         default:
             contexts:
                 - App\Tests\Hexagon\Bdd\GameContext
+                - App\Tests\Hexagon\Bdd\MultiplayerContext
                 - App\Tests\Cli\Bdd\CliPlayContext
 
     extensions:

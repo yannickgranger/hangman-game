@@ -48,9 +48,13 @@ class Word implements \JsonSerializable
             return false;
         }
 
-        $this->revealedLetters[] = $letter->getValue();
+        if (str_contains($this->value, $letter->getValue())) {
+            $this->revealedLetters[] = $letter->getValue();
 
-        return str_contains($this->value, $letter->getValue());
+            return true;
+        }
+
+        return false;
     }
 
     public function isRevealed(): bool
