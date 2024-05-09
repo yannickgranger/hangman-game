@@ -12,6 +12,7 @@ use Random\RandomException;
 class InMemoryWordRepositoryTest extends TestCase
 {
     private WordRepositoryInterface $wordRepository;
+
     protected function setUp(): void
     {
         parent::setUp();

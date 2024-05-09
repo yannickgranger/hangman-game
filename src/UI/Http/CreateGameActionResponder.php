@@ -8,7 +8,6 @@ use App\Domain\Entity\HangmanGame;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Uid\Uuid;
 
 class CreateGameActionResponder
 {

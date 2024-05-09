@@ -21,6 +21,7 @@ class GuessLetterUseCase
     {
         $guess = $game->playTurn($letter);
         $this->gameRepository->save($game);
+
         return $guess;
     }
 }

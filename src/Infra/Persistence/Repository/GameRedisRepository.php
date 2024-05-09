@@ -7,8 +7,6 @@ namespace App\Infra\Persistence\Repository;
 use App\Domain\Entity\HangmanGame;
 use App\Domain\Entity\Word;
 use App\Domain\Repository\GameRepositoryInterface;
-use App\UI\Http\Serializer\Normalizer\GameNormalizer;
-use App\UI\Http\Serializer\Normalizer\GameNormalizerInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Uid\Uuid;
 

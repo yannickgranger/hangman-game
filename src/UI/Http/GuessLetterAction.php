@@ -17,7 +17,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
-#[Route(path: "/api/game/{id}/guess/{letter}", name: "game_guess_letter", methods: ["GET"])]
+#[Route(path: '/api/game/{id}/guess/{letter}', name: 'game_guess_letter', methods: ['GET'])]
 final class GuessLetterAction
 {
     private GuessLetterUseCase $guessLetterUseCase;
@@ -26,10 +26,10 @@ final class GuessLetterAction
     private LetterValidator $guessLetterInputValidator;
 
     public function __construct(
-        GuessLetterUseCase         $guessLetterUseCase,
+        GuessLetterUseCase $guessLetterUseCase,
         GuessLetterActionResponder $guessLetterResponder,
-        LetterValidator            $guessLetterInputValidator,
-        GameRepositoryInterface    $gameRepository,
+        LetterValidator $guessLetterInputValidator,
+        GameRepositoryInterface $gameRepository,
     ) {
         $this->guessLetterUseCase = $guessLetterUseCase;
         $this->guessLetterResponder = $guessLetterResponder;
@@ -45,15 +45,15 @@ final class GuessLetterAction
 
         // here you should validate input with Validator (Sf validator or custom)
         // can pass it the full request or just the parameters, depending on complexity
-        if($this->guessLetterInputValidator->validateLetter($letter)) {
+        if ($this->guessLetterInputValidator->validateLetter($letter)) {
             $letter = new Letter($letter);
-        };
+        }
 
         // sidenote:
         // when you throw exceptions,
         // remember to can create an exception listener for exceptions you forgot to catch
         // because you are supposed to catch exceptions ...
-        if(!$game instanceof HangmanGame) {
+        if (!$game instanceof HangmanGame) {
             throw new GameNotFoundException();
         }
 

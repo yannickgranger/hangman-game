@@ -9,8 +9,6 @@ use App\Domain\Entity\Word;
 use App\Domain\ValueObject\Letter;
 use Behat\Behat\Context\Context;
 use Behat\Gherkin\Node\TableNode;
-use Symfony\Component\HttpKernel\KernelInterface;
-
 use Symfony\Component\Uid\Uuid;
 
 use function PHPUnit\Framework\assertEquals;
@@ -48,6 +46,7 @@ final class GameContext implements Context
     {
         assertEquals($arg1, $this->game->getWord()->getValue());
     }
+
     /**
      * @Given the player has :arg1 attempts
      */
@@ -91,6 +90,7 @@ final class GameContext implements Context
             $this->game->playTurn(new Letter($letter));
         }
     }
+
     /**
      * @Then the game should be over
      */

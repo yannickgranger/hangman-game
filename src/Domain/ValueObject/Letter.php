@@ -13,10 +13,11 @@ use App\Domain\Exception\InvalidGuessException;
 class Letter
 {
     private string $value;
+
     public function __construct(string $value)
     {
         if (strlen($value) !== 1 || !ctype_alpha($value)) {
-            throw new InvalidGuessException("Invalid letter. Please provide a single alphabetic character.");
+            throw new InvalidGuessException('Invalid letter. Please provide a single alphabetic character.');
         }
 
         $this->value = strtolower($value);

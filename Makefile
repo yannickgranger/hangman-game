@@ -4,6 +4,7 @@ APP = app_game
 PHPUNIT_BIN = vendor/bin/phpunit
 BEHAT_BIN = vendor/bin/behat
 PHPSTAN = vendor/bin/phpstan
+CS = vendor/bin/php-cs-fixer
 DOCKER_COMPOSE = docker compose -f docker-compose.yml -f docker-compose.dev.yml
 
 
@@ -26,6 +27,10 @@ quality: phpstan
 phpstan:
 	@${PHPSTAN} analyze src
 	@${PHPSTAN} analyze tests
+
+cs:
+	@${CS} fix src
+	@${CS} fix tests
 
 clean:
 	@rm -rf coverage/
