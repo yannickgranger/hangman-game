@@ -13,6 +13,7 @@ class RedisAdapterFactory
     {
         $client = new \Redis();
         $client->connect('redis', 6379);
+
         return $client;
     }
 }

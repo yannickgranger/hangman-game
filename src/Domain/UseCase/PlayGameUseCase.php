@@ -29,6 +29,7 @@ class PlayGameUseCase
     public function startGame(): Game
     {
         $word = $this->wordRepository->getRandomWord();
+
         return new Game(
             id: Uuid::v4(),
             word: new Word($word),

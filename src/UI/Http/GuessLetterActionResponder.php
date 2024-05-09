@@ -23,17 +23,16 @@ class GuessLetterActionResponder
         HangmanGame $game,
         Letter $letter,
         bool $guessStatus
-    ): JsonResponse
-    {
-        if($game->isGameOver()) {
+    ): JsonResponse {
+        if ($game->isGameOver()) {
             return new JsonResponse($game->getResultMessage());
         }
 
         return new JsonResponse([
             'game' => $this->serializer->normalize($game),
             'letter' => $letter->getValue(),
-            'feedback' => $game->getFeedback($letter, $guessStatus)
-        ],Response::HTTP_OK
+            'feedback' => $game->getFeedback($letter, $guessStatus),
+        ], Response::HTTP_OK
         );
     }
 

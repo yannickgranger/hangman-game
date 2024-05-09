@@ -21,11 +21,6 @@ class CreateGameUseCase
         $this->wordRepository = $wordRepository;
     }
 
-    /**
-     * @param int $maxAttempts
-     * @param int|null $difficulty
-     * @return HangmanGame
-     */
     public function execute(int $maxAttempts, ?int $difficulty): HangmanGame
     {
         $hangmanGame = new HangmanGame(

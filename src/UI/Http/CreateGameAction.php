@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
-#[Route(path: "/api/game", name: "start_game", methods: ["GET"])]
+#[Route(path: '/api/game', name: 'start_game', methods: ['GET'])]
 class CreateGameAction
 {
     private CreateGameActionResponder $actionResponder;
@@ -57,6 +57,7 @@ class CreateGameAction
 
         $maxAttempts = $requestContent['maxAttempts'] ?? $this->defaultMaxAttempts;
         $difficulty = $requestContent['difficulty'] ?? $this->defaultDifficulty;
+
         return $this->actionResponder->handle(
             $useCase->execute($maxAttempts, $difficulty)
         );

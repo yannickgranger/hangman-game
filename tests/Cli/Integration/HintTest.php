@@ -33,7 +33,7 @@ class HintTest extends KernelTestCase
         $letter = array_pop($revealed);
         $positions = [];
         $word = 'magic';
-        for ($i = 0; $i < strlen($word); $i++) {
+        for ($i = 0; $i < strlen($word); ++$i) {
             if ($word[$i] === $letter) {
                 $positions[] = $i;
             }
@@ -41,8 +41,8 @@ class HintTest extends KernelTestCase
 
         $position = $positions[0];
         $myWord = '';
-        for($i = 0; $i < strlen($word); $i++) {
-            if($i === $position) {
+        for ($i = 0; $i < strlen($word); ++$i) {
+            if ($i === $position) {
                 $myWord .= $letter;
             } else {
                 $myWord .= '_';
@@ -51,6 +51,7 @@ class HintTest extends KernelTestCase
 
         $this->assertEquals($myWord, $game->getWord()->getDisplay());
     }
+
     public function testRequestingSingleLetterHintFromAnanas()
     {
         $word = 'ananas';
@@ -62,7 +63,7 @@ class HintTest extends KernelTestCase
 
         $hintLetterDiff = array_diff($game->getWord()->getRevealedLetters(), ['a', 's']);
         $hintLetter = array_pop($hintLetterDiff);
-        for ($i = 0; $i < strlen($word); $i++) {
+        for ($i = 0; $i < strlen($word); ++$i) {
             if ($word[$i] === $hintLetter) {
                 $positions[] = $i;
             }
@@ -72,7 +73,7 @@ class HintTest extends KernelTestCase
 
         $revealed = $game->getWord()->getRevealedLetters();
         $myWord = '';
-        for ($i = 0; $i < strlen($word); $i++) {
+        for ($i = 0; $i < strlen($word); ++$i) {
             foreach ($revealed as $letter) {
                 if ($word[$i] === $letter) {
                     $myWord .= $letter;
