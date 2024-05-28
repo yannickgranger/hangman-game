@@ -47,4 +47,7 @@ up:
 	${DOCKER_COMPOSE} up -d
 
 down:
-	${DOCKER_COMPOSE} down
+	- @${DOCKER_COMPOSE} down
+	- @docker stop $(docker ps -a -q) || true
+	- @docker rm $(docker ps -a -q) || true
+	- @docker kill $(docker ps -a -q) || true

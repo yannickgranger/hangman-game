@@ -10,11 +10,6 @@ setfacl -R -m u:www-data:rwX -m u:"${UID}":rwX /composer
 setfacl -dR -m u:www-data:rwX -m u:"${UID}":rwX /composer
 
 composer install --prefer-dist --no-progress --no-interaction
-
 echo "build ok"
-/usr/local/bin/security-checker-install.sh
 
 exec docker-php-entrypoint "$@"
-
-
-

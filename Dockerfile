@@ -17,67 +17,42 @@ COPY tests ./tests
 COPY translations ./translations
 
 FROM php:${PHP_VERSION}-fpm-alpine AS app_php
-ARG GID=1000
-ARG UID=1000
 ARG TZ
 ENV TZ=${TZ}
-ENV GID="${GID}"
-ENV UID="${UID}"
 
-RUN apk add --no-cache --update linux-headers \
-    acl \
-    fcgi \
-    file \
-    gettext \
-    icu-dev \
-    git \
-    libzip-dev \
-    make \
-    tzdata \
-;
+# fpm config
+COPY .docker/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY .docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
+COPY .docker/php/conf.d/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
+COPY .docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 ENV LD_PRELOAD /usr/lib/preloadable_libiconv.so
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-
 RUN chmod +x /usr/local/bin/install-php-extensions && sync
 
-RUN set -o -eux; \
-	apk add --no-cache --virtual .build-deps \
-		"$PHPIZE_DEPS" \
-		zlib-dev \
-	; \
-	\
-	install-php-extensions mbstring http intl zip opcache redis amqp \
-    ; \
-	docker-php-ext-enable \
-		opcache \
-        intl \
-        redis \
-        zip \
-	; \
-	\
-	runDeps="$( \
-		scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
-			| tr ',' '\n' \
-			| sort -u \
-			| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-	)"; \
-	apk add --no-cache --virtual .phpexts-rundeps $runDeps;
+RUN SHELL=/bin/ash apk add --no-cache --update \
+    "linux-headers=6.6-r0" \
+    "acl=2.3.2-r0" \
+    "fcgi=2.4.2-r4" \
+    "file=5.45-r1" \
+    "gettext=0.22.5-r0" \
+    "icu-dev=74.2-r0" \
+    "git=2.45.1-r0" \
+    "libzip-dev=1.10.1-r0" \
+    "tzdata=2024a-r1";
+
+RUN SHELL=/bin/ash \
+    set -eux; \
+	install-php-extensions mbstring http intl json pdo_pgsql zip opcache redis amqp;
 
 
 COPY --from=app-builder /srv /srv
 
 WORKDIR /srv/app
 
-# fpm config
-COPY .docker/php/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-COPY .docker/php/docker-healthcheck.sh /usr/local/bin/docker-healthcheck
-COPY .docker/php/conf.d/symfony.prod.ini $PHP_INI_DIR/conf.d/symfony.ini
-COPY .docker/php/security-checker-install.sh /usr/local/bin/security-checker-install.sh
-COPY .docker/php/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
-HEALTHCHECK --interval=10s --timeout=3s --retries=3 CMD ["docker-healthcheck"]
+HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD ["docker-healthcheck"]
 
 # https://getcomposer.org/doc/03-cli.md#composer-allow-superuser
 ENV COMPOSER_ALLOW_SUPERUSER=1
@@ -87,12 +62,10 @@ RUN ln -s "$PHP_INI_DIR"/php.ini-production "$PHP_INI_DIR"/php.ini ; \
     set -eux; \
     rm -rf var/cache var/log /composer ; \
     mkdir -p var/cache var/log /composer; \
-    set -eux; \
 	composer install --prefer-dist --no-progress --no-scripts --no-interaction; \
 	composer dump-autoload --classmap-authoritative; \
-	composer symfony:dump-env dev; \
 	composer run-script post-install-cmd; \
-	chmod +x bin/console /usr/local/bin/docker-healthcheck /usr/local/bin/docker-entrypoint.sh /usr/local/bin/security-checker-install.sh; \
+	chmod +x bin/console /usr/local/bin/docker-healthcheck /usr/local/bin/docker-entrypoint.sh; \
     cp /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
     && apk del tzdata; \
     sync
@@ -102,6 +75,13 @@ VOLUME /srv/app/var /composer
 ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD ["php-fpm"]
+
+FROM app_php as app_php_dev
+
+RUN install-php-extensions xdebug \
+    && usermod -u 1000 www-data # change to your UID to solve file permissions issues in dev \
+    && 	composer symfony:dump-env dev;
+
 
 FROM nginx:1.20-alpine AS app_nginx
 ARG NGINX_CONF_DIR
