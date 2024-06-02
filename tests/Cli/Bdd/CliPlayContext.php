@@ -8,10 +8,8 @@ use App\Domain\Entity\HangmanGame;
 use App\Domain\UseCase\PlayGameUseCase;
 use App\Domain\ValueObject\Letter;
 use Behat\Behat\Context\Context;
-use Behat\Behat\Tester\Exception\PendingException;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\HttpKernel\KernelInterface;
+
 use function PHPUnit\Framework\assertCount;
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertFalse;
@@ -19,7 +17,6 @@ use function PHPUnit\Framework\assertGreaterThan;
 use function PHPUnit\Framework\assertIsString;
 use function PHPUnit\Framework\assertStringContainsString;
 use function PHPUnit\Framework\assertTrue;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\env;
 
 class CliPlayContext implements Context
 {
@@ -66,7 +63,7 @@ class CliPlayContext implements Context
     public function theWordShouldBeDisplayedWithDashesRepresentingHiddenLetters()
     {
         assertStringContainsString(
-            "______",
+            '______',
             $this->game->getResultMessage()
         );
     }
@@ -86,9 +83,10 @@ class CliPlayContext implements Context
     {
         assertTrue($this->playGameUseCase->makeGuess(
             $this->game,
-            new Letter("a")
+            new Letter('a')
         ));
     }
+
     /**
      * @When I guess a letter that does not exist in the word
      */
@@ -96,22 +94,21 @@ class CliPlayContext implements Context
     {
         assertFalse($this->playGameUseCase->makeGuess(
             $this->game,
-            new Letter("z")
+            new Letter('z')
         ));
     }
-
 
     /**
      * @Then the letter should be revealed in all its correct positions
      */
     public function theLetterShouldBeRevealedInAllItsCorrectPositions()
     {
-        assertStringContainsString("You guessed the letter a.",
-            $this->game->getFeedback(new Letter("a"), true)
+        assertStringContainsString(
+            'You guessed the letter a.',
+            $this->game->getFeedback(new Letter('a'), true)
         );
-        assertEquals("a_a_a_",$this->game->getWord()->getDisplay());
+        assertEquals('a_a_a_', $this->game->getWord()->getDisplay());
     }
-
 
     /**
      * @Then the number of remaining attempts should not change
@@ -120,9 +117,11 @@ class CliPlayContext implements Context
     {
         $maxAttempts = $this->kernel->getContainer()->getParameter('max_attempts');
         assertEquals(
-            $this->game->getRemainingAttempts(), $maxAttempts
+            $this->game->getRemainingAttempts(),
+            $maxAttempts
         );
     }
+
     /**
      * @Then one attempt should be deducted from the remaining attempts
      */
@@ -130,7 +129,8 @@ class CliPlayContext implements Context
     {
         $maxAttempts = $this->kernel->getContainer()->getParameter('max_attempts');
         assertEquals(
-            $this->game->getRemainingAttempts(), $maxAttempts - 1
+            $this->game->getRemainingAttempts(),
+            $maxAttempts - 1
         );
     }
 
@@ -144,7 +144,6 @@ class CliPlayContext implements Context
             str_repeat('_', strlen($this->game->getWord()->getValue()))
         );
     }
-
 
     /**
      * @When I guess all the letters in the word correctly
@@ -173,9 +172,12 @@ class CliPlayContext implements Context
      */
     public function theCompleteWordShouldBeShown()
     {
-        assertStringContainsString('ananas',
-        $this->game->getResultMessage());
+        assertStringContainsString(
+            'ananas',
+            $this->game->getResultMessage()
+        );
     }
+
     /**
      * @When I use up all my attempts by guessing incorrect letters
      */
@@ -195,6 +197,6 @@ class CliPlayContext implements Context
      */
     public function aMessageIndicatingDefeatShouldBeDisplayed()
     {
-        assertEquals($this->game->getResultMessage(),'You ran out of guesses. The word was: ananas');
+        assertEquals($this->game->getResultMessage(), 'You ran out of guesses. The word was: ananas');
     }
 }

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Domain\UseCase;
 
 use App\Domain\Entity\HangmanGame as Game;
+use App\Domain\Entity\Word;
 use App\Domain\Repository\WordRepositoryInterface;
 use App\Domain\ValueObject\Letter;
+use Symfony\Component\Uid\Uuid;
 
 class PlayGameUseCase
 {
@@ -27,8 +29,10 @@ class PlayGameUseCase
     public function startGame(): Game
     {
         $word = $this->wordRepository->getRandomWord();
+
         return new Game(
-            word: $word,
+            id: Uuid::v4(),
+            word: new Word($word),
             maxAttempts: $this->maxAttempts,
             difficulty: $this->defaultDifficulty
         );

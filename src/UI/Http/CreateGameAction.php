@@ -13,7 +13,7 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[AsController]
-#[Route(path: "/api/game", name: "start_game", methods: ["GET"])]
+#[Route(path: '/api/game', name: 'start_game', methods: ['GET'])]
 class CreateGameAction
 {
     private CreateGameActionResponder $actionResponder;
@@ -28,7 +28,7 @@ class CreateGameAction
         WordRepositoryInterface $wordRepository,
         int $defaultMaxAttempts,
         int $defaultDifficulty
-    ){
+    ) {
         $this->actionResponder = $actionResponder;
         $this->gameRepository = $gameRepository;
         $this->wordRepository = $wordRepository;
@@ -58,10 +58,8 @@ class CreateGameAction
         $maxAttempts = $requestContent['maxAttempts'] ?? $this->defaultMaxAttempts;
         $difficulty = $requestContent['difficulty'] ?? $this->defaultDifficulty;
 
-        $result = $useCase->execute($maxAttempts, $difficulty);
         return $this->actionResponder->handle(
-            id: $result['id'],
-            game: $result['game']
+            $useCase->execute($maxAttempts, $difficulty)
         );
     }
 }

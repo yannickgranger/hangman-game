@@ -5,20 +5,28 @@ declare(strict_types=1);
 namespace App\Domain\Entity;
 
 use App\Domain\ValueObject\Letter;
+use Symfony\Component\Uid\Uuid;
 
 class HangmanGame implements \JsonSerializable
 {
+    private Uuid $id;
     private Word $word;
     private int $remainingAttempts;
     private int $maxAttempts;
     private int $difficulty;
 
-    public function __construct(string $word, int $maxAttempts, int $difficulty)
+    public function __construct(Uuid $id, Word $word, int $maxAttempts, int $difficulty)
     {
-        $this->word = new Word($word);
+        $this->id = $id;
+        $this->word = $word;
         $this->maxAttempts = $maxAttempts;
         $this->remainingAttempts = $maxAttempts;
         $this->difficulty = $difficulty;
+    }
+
+    public function getId(): Uuid
+    {
+        return $this->id;
     }
 
     public function getWord(): Word
@@ -38,36 +46,35 @@ class HangmanGame implements \JsonSerializable
         }
 
         $alreadyGuessed = $this->word->isRevealedLetter($letter);
-        if($alreadyGuessed === true){
+        if ($alreadyGuessed === true) {
             return false;
         }
 
         $isCorrect = $this->word->guess($letter);
         if (!$isCorrect) {
-            $this->remainingAttempts--;
+            --$this->remainingAttempts;
         }
 
         return $isCorrect;
     }
 
-
     public function getFeedback(Letter $letter, bool $isCorrect): string
     {
         if ($isCorrect === true && $this->word->isRevealedLetter($letter)) {
-            return sprintf("You guessed the letter %s.", $letter->getValue());
+            return sprintf('You guessed the letter %s.', $letter->getValue());
         } elseif ($isCorrect) {
-            return sprintf("Good guess! The letter  %s is in the word.", $letter->getValue());
+            return sprintf('Good guess! The letter  %s is in the word.', $letter->getValue());
         } else {
-            return "Incorrect guess. You have " . $this->getRemainingAttempts() . " guesses left.";
+            return 'Incorrect guess. You have '.$this->getRemainingAttempts().' guesses left.';
         }
     }
 
     public function getResultMessage(): string
     {
-        if(
+        if (
             $this->remainingAttempts === $this->maxAttempts
             && $this->word->isRevealed() === false
-        ){
+        ) {
             return sprintf(
                 "Welcome to Hangman! The word has %s letters.\n%s\nYou have %s guesses left.",
                 strlen($this->getWord()->getValue()),
@@ -76,9 +83,9 @@ class HangmanGame implements \JsonSerializable
             );
         }
         if ($this->remainingAttempts === 0) {
-            return "You ran out of guesses. The word was: " . $this->word->getValue();
+            return 'You ran out of guesses. The word was: '.$this->word->getValue();
         } else {
-            return sprintf("Congratulations! You guessed the word: %s", $this->word->getValue());
+            return sprintf('Congratulations! You guessed the word: %s', $this->word->getValue());
         }
     }
 
@@ -94,7 +101,7 @@ class HangmanGame implements \JsonSerializable
         $this->word->guess(new Letter($toReveal));
         $positions = [];
 
-        for ($i = 0; $i < strlen($this->word->getValue()); $i++) {
+        for ($i = 0; $i < strlen($this->word->getValue()); ++$i) {
             if ($this->word->getValue()[$i] === $toReveal) {
                 $positions[] = $i;
             }
@@ -104,7 +111,7 @@ class HangmanGame implements \JsonSerializable
         $this->remainingAttempts = max($this->remainingAttempts - $numberOfGuessesUsed, 0);
 
         return $numberOfGuessesUsed > 0;
-     }
+    }
 
     public function isGameOver(): bool
     {
@@ -115,10 +122,10 @@ class HangmanGame implements \JsonSerializable
     {
         return json_encode(
             [
-                'word' => json_encode($this->word),
+                'word' => $this->word->toArray(),
                 'remaining_attempts' => $this->remainingAttempts,
                 'max_attempts' => $this->maxAttempts,
-                'difficulty' => $this->difficulty
+                'difficulty' => $this->difficulty,
             ],
             JSON_PRETTY_PRINT
         );
@@ -127,5 +134,15 @@ class HangmanGame implements \JsonSerializable
     public function getDifficulty(): int
     {
         return $this->difficulty;
+    }
+
+    public function getMaxAttempts(): int
+    {
+        return $this->maxAttempts;
+    }
+
+    public function setRemainingAttempts(int $remainingAttempts): void
+    {
+        $this->remainingAttempts = $remainingAttempts;
     }
 }

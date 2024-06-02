@@ -36,6 +36,7 @@ class PlayGameCommand extends Command
         }
 
         $output->writeln($game->getResultMessage());
+
         return Command::SUCCESS;
     }
 
@@ -44,6 +45,7 @@ class PlayGameCommand extends Command
         $helper = $this->getHelper('question');
         $question = new Question('Guess a letter: ');
         $answer = $helper->ask($input, $output, $question);
+
         return new Letter(strtolower($answer));
     }
 }

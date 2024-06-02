@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Domain\Entity;
 
 use App\Domain\ValueObject\Letter;
-use InvalidArgumentException;
 
 class Word implements \JsonSerializable
 {
@@ -19,7 +18,7 @@ class Word implements \JsonSerializable
     public function __construct(string $value)
     {
         if (!ctype_alpha($value)) {
-            throw new InvalidArgumentException("Word must only contain alphabetic characters");
+            throw new \InvalidArgumentException('Word must only contain alphabetic characters');
         }
         $this->value = $value;
         $this->revealedLetters = [];
@@ -50,6 +49,7 @@ class Word implements \JsonSerializable
         }
 
         $this->revealedLetters[] = $letter->getValue();
+
         return str_contains($this->value, $letter->getValue());
     }
 
@@ -64,24 +64,29 @@ class Word implements \JsonSerializable
         foreach (str_split($this->value) as $char) {
             $display .= in_array(strtolower($char), $this->revealedLetters) ? $char : '_';
         }
+
         return $display;
+    }
+
+    public function setRevealedLetters(array $revealedLetters): void
+    {
+        $this->revealedLetters = $revealedLetters;
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function toArray(): array
+    {
+        return [
+            'value' => $this->getValue(),
+            'revealed_letters' => $this->getRevealedLetters(),
+            'display' => $this->getDisplay(),
+        ];
     }
 
     public function jsonSerialize(): string
     {
-        return json_encode(Word::toArray($this), JSON_PRETTY_PRINT);
-    }
-
-    /**
-     * @param Word $word
-     * @return array<string, string>
-     */
-    public static function toArray(Word $word): array
-    {
-        return  [
-            'value' => $word->getValue(),
-            'revealed_letters' => $word->getRevealedLetters(),
-            'display' => $word->getDisplay()
-        ];
+        return json_encode($this, JSON_PRETTY_PRINT);
     }
 }

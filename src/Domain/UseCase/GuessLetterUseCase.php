@@ -5,19 +5,23 @@ declare(strict_types=1);
 namespace App\Domain\UseCase;
 
 use App\Domain\Entity\HangmanGame;
+use App\Domain\Repository\GameRepositoryInterface;
 use App\Domain\ValueObject\Letter;
 
 class GuessLetterUseCase
 {
-    private HangmanGame $game;
+    private GameRepositoryInterface $gameRepository;
 
-    public function __construct(HangmanGame $game)
+    public function __construct(GameRepositoryInterface $gameRepository)
     {
-        $this->game = $game;
+        $this->gameRepository = $gameRepository;
     }
 
-    public function execute(Letter $letter): bool
+    public function execute(HangmanGame $game, Letter $letter): bool
     {
-        return $this->game->playTurn($letter);
+        $guess = $game->playTurn($letter);
+        $this->gameRepository->save($game);
+
+        return $guess;
     }
 }
